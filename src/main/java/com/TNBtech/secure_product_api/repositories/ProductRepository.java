@@ -1,0 +1,8 @@
+package com.TNBtech.secure_product_api.repositories;
+
+import com.TNBtech.secure_product_api.entities.Product;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+
+public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
+}

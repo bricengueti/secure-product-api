@@ -1,0 +1,56 @@
+version: '3'
+
+services:
+#  db:
+#    image: postgres:latest
+#    container_name: posgres_secure_product
+#    environment:
+#      - POSTGRES_USER=root
+#      - POSTGRES_PASSWORD=root
+#      - POSTGRES_DB=secure_product_db_dev
+#    ports:
+#      - "7432:5432"
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data
+#    networks:
+#      - secure-product-network
+
+  adminer:
+    image: adminer
+    container_name: adminer_secure_product
+    ports:
+      - "9082:8080"
+    depends_on:
+      - db
+    networks:
+      - secure-product-network
+
+  api-service:
+    build: .
+    container_name: app_secure_product
+    ports:
+      - "8090:8089"
+    depends_on:
+      - db
+    networks:
+      - secure-product-network
+
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer_secure_product
+    restart: always
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    networks:
+      - secure-product-network
+
+volumes:
+  postgres_data:
+  portainer_data:
+
+networks:
+  secure-product-network:
+    driver: bridge
